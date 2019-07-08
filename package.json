@@ -2,7 +2,7 @@
   "name": "processing",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://kotikdv.github.io/myapp",
+  "homepage": "http://diluent.github.io/processing",
   "dependencies": {
     "open-simplex-noise": "^1.6.0",
     "react": "^16.8.6",
