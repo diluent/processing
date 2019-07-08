@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/processing/static/css/main.5f584e36.chunk.css",
+    "main.js": "/processing/static/js/main.191b70e0.chunk.js",
+    "main.js.map": "/processing/static/js/main.191b70e0.chunk.js.map",
+    "runtime~main.js": "/processing/static/js/runtime~main.a9e3335d.js",
+    "runtime~main.js.map": "/processing/static/js/runtime~main.a9e3335d.js.map",
+    "static/js/2.47c941ab.chunk.js": "/processing/static/js/2.47c941ab.chunk.js",
+    "static/js/2.47c941ab.chunk.js.map": "/processing/static/js/2.47c941ab.chunk.js.map",
+    "index.html": "/processing/index.html",
+    "precache-manifest.38213c8bf161452987729c725070a4d8.js": "/processing/precache-manifest.38213c8bf161452987729c725070a4d8.js",
+    "service-worker.js": "/processing/service-worker.js",
+    "static/css/main.5f584e36.chunk.css.map": "/processing/static/css/main.5f584e36.chunk.css.map",
+    "static/media/clock.png": "/processing/static/media/clock.fc1702e8.png",
+    "static/media/dollar.png": "/processing/static/media/dollar.a5159f79.png",
+    "static/media/house.png": "/processing/static/media/house.fac1dfc2.png",
+    "static/media/time1.png": "/processing/static/media/time1.47fc8582.png",
+    "static/media/time2.png": "/processing/static/media/time2.b1a3afa0.png",
+    "static/media/time3.png": "/processing/static/media/time3.19a28348.png",
+    "static/media/time4.png": "/processing/static/media/time4.652a2b36.png",
+    "static/media/time5.png": "/processing/static/media/time5.296a8a95.png"
+  }
+}
