@@ -1,15 +1,21 @@
 import React from 'react';
-import clock from '../source/clock.png';
-import dollar from '../source/dollar.png';
-import house from '../source/house.png';
+import costs from './source/costs.png';
+import floor_area from './source/floor_area.png';
+import floor_count from './source/floor_count.png';
+import height from './source/height.png';
+import hotel_price from './source/hotel_price.png';
+import time from './source/time.png';
 import './styles.css';
 
 const Menu = ({onClick}) => {
   return (
     <div className="menu">
-        <img src={clock} className="menuImg" onClick={() => onClick('info1')}/>
-        <img src={dollar} className="menuImg" onClick={() => onClick('info2')}/>
-        <img src={house} className="menuImg" onClick={() => onClick('info3')}/>
+        <img src={costs} className="menuImg" onClick={() => onClick('costs')}/>
+        <img src={floor_area} className="menuImg" onClick={() => onClick('floor_area')}/>
+        <img src={floor_count} className="menuImg" onClick={() => onClick('floor_count')}/>
+        <img src={height} className="menuImg" onClick={() => onClick('height')}/>
+        <img src={hotel_price} className="menuImg" onClick={() => onClick('hotel_price')}/>
+        <img src={time} className="menuImg" onClick={() => onClick('time')}/>
     </div>
   );
 }

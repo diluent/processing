@@ -1,9 +1,10 @@
 import React from 'react';
 import Menu from './menu/Menu';
 import Info from './Info/Info';
-import graphics1 from './graphics/graphics1.png';
-import graphics2 from './graphics/graphics2.png';
-import graphics3 from './graphics/graphics3.png';
+import floor_count from './graphics/floor_count.png';
+import height from './graphics/height.png';
+import price from './graphics/price.png';
+import time from './graphics/time.png';
 
 import './App.css';
 
@@ -21,9 +22,10 @@ class App extends React.Component {
       <div className="App">
         <Menu onClick={this.setView} />
         <div className="info">
-          {this.state.view === 'info1' && <Info graphics={graphics1} />}
-          {this.state.view === 'info2' && <Info graphics={graphics2} />}
-          {this.state.view === 'info3' && <Info graphics={graphics3} />}
+          {this.state.view === 'floor_count' && <Info graphics={floor_count} />}
+          {this.state.view === 'height' && <Info graphics={height} />}
+          {this.state.view === 'price' && <Info graphics={price} />}
+          {this.state.view === 'time' && <Info graphics={time} />}
         </div>
       </div>
     );
