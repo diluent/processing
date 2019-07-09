@@ -7,9 +7,9 @@ import './styles.css';
 const Menu = ({onClick}) => {
   return (
     <div className="menu">
-        <img src={clock} className="menuImg" onClick={() => onClick('time')}/>
-        <img src={dollar} className="menuImg" />
-        <img src={house} className="menuImg" />
+        <img src={clock} className="menuImg" onClick={() => onClick('info1')}/>
+        <img src={dollar} className="menuImg" onClick={() => onClick('info2')}/>
+        <img src={house} className="menuImg" onClick={() => onClick('info3')}/>
     </div>
   );
 }
