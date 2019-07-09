@@ -1,5 +1,5 @@
 import React from 'react';
-import costs from './source/costs.png';
+import price from './source/price.png';
 import floor_area from './source/floor_area.png';
 import floor_count from './source/floor_count.png';
 import height from './source/height.png';
@@ -10,7 +10,7 @@ import './styles.css';
 const Menu = ({onClick}) => {
   return (
     <div className="menu">
-        <img src={costs} className="menuImg" onClick={() => onClick('costs')}/>
+        <img src={price} className="menuImg" onClick={() => onClick('price')}/>
         <img src={floor_area} className="menuImg" onClick={() => onClick('floor_area')}/>
         <img src={floor_count} className="menuImg" onClick={() => onClick('floor_count')}/>
         <img src={height} className="menuImg" onClick={() => onClick('height')}/>
