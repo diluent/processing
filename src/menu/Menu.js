@@ -10,12 +10,34 @@ import './styles.css';
 const Menu = ({onClick}) => {
   return (
     <div className="menu">
-        <img src={price} className="menuImg" onClick={() => onClick('cost')}/>
-        <img src={floor_area} className="menuImg" onClick={() => onClick('floor_area')}/>
-        <img src={floor_count} className="menuImg" onClick={() => onClick('floor_count')}/>
-        <img src={height} className="menuImg" onClick={() => onClick('height')}/>
-        <img src={hotel_price} className="menuImg" onClick={() => onClick('hotel_price')}/>
-        <img src={time} className="menuImg" onClick={() => onClick('time')}/>
+      <div className="menuColumn">
+        <div>
+          <img src={price} className="menuImg" onClick={() => onClick('cost')}/>
+          <div className="title">COSTS</div>
+        </div>
+        <div>
+          <img src={floor_area} className="menuImg" onClick={() => onClick('floor_area')}/>
+          <div className="title">FLOOR AREA</div>
+        </div>
+        <div>
+          <img src={floor_count} className="menuImg" onClick={() => onClick('floor_count')}/>
+          <div className="title">FLOOR COUNT</div>
+        </div>
+      </div>
+      <div className="menuColumn">
+        <div>
+          <img src={height} className="menuImg" onClick={() => onClick('height')}/>
+          <div className="title">HEIGHT</div>
+        </div>
+        <div>
+          <img src={hotel_price} className="menuImg" onClick={() => onClick('hotel_price')}/>
+          <div className="title">HOTEL PRICE</div>
+        </div>
+        <div>
+          <img src={time} className="menuImg" onClick={() => onClick('time')}/>
+          <div className="title">TIME</div>
+        </div>
+      </div>
     </div>
   );
 }

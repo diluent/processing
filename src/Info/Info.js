@@ -1,8 +1,4 @@
 import React from 'react';
-import time2 from './svg/time2.png';
-import time3 from './svg/time3.png';
-import time4 from './svg/time4.png';
-import time5 from './svg/time5.png';
 import './styles.css';
 
 class TimeInfo extends React.Component {
