@@ -10,7 +10,7 @@ import './styles.css';
 const Menu = ({onClick}) => {
   return (
     <div className="menu">
-        <img src={price} className="menuImg" onClick={() => onClick('price')}/>
+        <img src={price} className="menuImg" onClick={() => onClick('cost')}/>
         <img src={floor_area} className="menuImg" onClick={() => onClick('floor_area')}/>
         <img src={floor_count} className="menuImg" onClick={() => onClick('floor_count')}/>
         <img src={height} className="menuImg" onClick={() => onClick('height')}/>

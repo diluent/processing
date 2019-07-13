@@ -15,6 +15,40 @@
     justify-content: center;
 }
 
+.cityIcon {
+    position: fixed;
+    height: 40%;
+}
+
+.cityIcon1 {
+    top: 5%;
+    left: 5%;
+}
+
+.cityIcon2 {
+    top: 5%;
+    left: 40%;
+}
+
+.cityIcon3 {
+    top: 10%;
+    left: 70%;
+}
+
+.cityIcon4 {
+    top: 40%;
+    left: 20%;
+}
+
+.cityIcon5 {
+    top: 60%;
+    left: 40%;
+}
+
+.cityIcon6 {
+    top: 50%;
+    left: 70%;
+}
 .part {
     position: fixed;
     height: 80%;

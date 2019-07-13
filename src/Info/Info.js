@@ -5,14 +5,21 @@ import time4 from './svg/time4.png';
 import time5 from './svg/time5.png';
 import './styles.css';
 
-function TimeInfo({graphics}) {
+function TimeInfo({cityIcons, graphics}) {
   return (
     <div className="image-container">
-      <img src={graphics} className="part" />
-      {/* <img src={time2} className="part part2" />
-      <img src={time3} className="part part3" />
-      <img src={time4} className="part part4" />
-      <img src={time5} className="part part5" /> */}
+      {cityIcons && (
+        <>
+          <img src={cityIcons[0]} className="cityIcon cityIcon1" />
+          <img src={cityIcons[1]} className="cityIcon cityIcon2" />
+          <img src={cityIcons[2]} className="cityIcon cityIcon3" />
+          <img src={cityIcons[3]} className="cityIcon cityIcon4" />
+          <img src={cityIcons[4]} className="cityIcon cityIcon5" />
+          <img src={cityIcons[5]} className="cityIcon cityIcon6" />
+        </>
+      )}
+
+      {!cityIcons && <img src={graphics} className="part" />}
     </div>
   );
 }

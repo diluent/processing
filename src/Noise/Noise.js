@@ -4,16 +4,26 @@ import './styles.css';
 
 
 class Noise extends React.Component {
+  intervalId = null;
+
   state = {
     view: null,
   }
 
   renderCanvas(canvas) {
     let frame = 1;
-    setInterval(() => this.renderNoise(canvas, frame++), 200);
+    this.intervalId = setInterval(() => this.renderNoise(canvas, frame++), 200);
+  }
+
+  componentWillUnmount() {
+    this.intervalId = null;
   }
 
   renderNoise(canvas, frameCount) {
+    if(!canvas) {
+      return;
+    }
+    
     const openSimplex = new OpenSimplexNoise(Date.now());
 
     const TWO_PI = Math.PI*2;

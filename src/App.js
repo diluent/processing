@@ -9,9 +9,63 @@ import time from './graphics/time.png';
 
 import './App.css';
 
+const countIcons = [
+  require('./raw_graphics/floor count Abraj Bai@0,25x.png'),
+  require('./raw_graphics/floor count Burj Khalifa@0,25x.png'),
+  require('./raw_graphics/floor count Lotte@0,25x.png'),
+  require('./raw_graphics/floor count one world trade@0,25x.png'),
+  require('./raw_graphics/floor count ping an@0,25x.png'),
+  require('./raw_graphics/floor count Shanghai@0,25x.png'),
+];
+
+const areaIcons = [
+  require('./raw_graphics/floor area apraj al-bai@0,25x.png'),
+  require('./raw_graphics/floor area burj khalifa@0,25x.png'),
+  require('./raw_graphics/floor area lotte world@0,25x.png'),
+  require('./raw_graphics/floor area one world@0,25x.png'),
+  require('./raw_graphics/floor area ping an@0,25x.png'),
+  require('./raw_graphics/floor area shanghai@0,25x.png'),
+];
+
+const heightIcons = [
+  require('./raw_graphics/height Abraj Bai@0,25x.png'),
+  require('./raw_graphics/height Burj Khalifa@0,25x.png'),
+  require('./raw_graphics/height Lotte@0,25x.png'),
+  require('./raw_graphics/height One World Trade@0,25x.png'),
+  require('./raw_graphics/height Ping An@0,25x.png'),
+  require('./raw_graphics/height Shanghai@0,25x.png'),
+];
+
+const priceIcons = [
+  require('./raw_graphics/hotel price Abraj-Bai@0,25x.png'),
+  require('./raw_graphics/hotel price Burj Khalifa@0,25x.png'),
+  require('./raw_graphics/hotel price Lotte@0,25x.png'),
+  require('./raw_graphics/hotel price One World Trade@0,25x.png'),
+  require('./raw_graphics/hotel price Ping An@0,25x.png'),
+  require('./raw_graphics/hotel price Shanghai@0,25x.png'),
+];
+
+const timeIcons = [
+  require('./raw_graphics/time abraj al-bai@0,25x.png'),
+  require('./raw_graphics/time burj@0,25x.png'),
+  require('./raw_graphics/time lotte tower@0,25x.png'),
+  require('./raw_graphics/time one world trade@0,25x.png'),
+  require('./raw_graphics/time ping an@0,25x.png'),
+  require('./raw_graphics/time shanghai@0,25x.png'),
+];
+
+const costIcons = [
+  require('./raw_graphics/costs abraj al-bai@0,25x.png'),
+  require('./raw_graphics/costs burj khalifa@0,25x.png'),
+  require('./raw_graphics/costs lotte world@0,25x.png'),
+  require('./raw_graphics/costs one world trade@0,25x.png'),
+  require('./raw_graphics/costs ping an@0,25x.png'),
+  require('./raw_graphics/costs shanghai@0,25x.png'),
+];
+
 class App extends React.Component {
   state = {
-    view: null,
+    view: 'background',
   }
 
   setView = (view) => {
@@ -22,12 +76,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <Menu onClick={this.setView} />
-        <Noise />
+        {this.state.view === 'background' && <Noise />}
         <div className="info">
-          {this.state.view === 'floor_count' && <Info graphics={floor_count} />}
-          {this.state.view === 'height' && <Info graphics={height} />}
-          {this.state.view === 'price' && <Info graphics={price} />}
-          {this.state.view === 'time' && <Info graphics={time} />}
+          {this.state.view === 'floor_count' && <Info cityIcons={countIcons} graphics={floor_count} />}
+          {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={floor_count} />}
+          {this.state.view === 'height' && <Info cityIcons={heightIcons} graphics={height} />}
+          {this.state.view === 'hotel_price' && <Info cityIcons={priceIcons} graphics={price} />}
+          {this.state.view === 'time' && <Info cityIcons={timeIcons} graphics={time} />}
+          {this.state.view === 'cost' && <Info cityIcons={costIcons} graphics={time} />}
         </div>
       </div>
     );
