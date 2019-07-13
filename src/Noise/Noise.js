@@ -31,8 +31,9 @@ class Noise extends React.Component {
     canvas.height = height;
     canvas.width = width;
     const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-
     for(let x = 0;x<width;x+=spacing){
       for(let y = 0;y<height;y+=spacing){
         let ns = openSimplex.noise2D(scale*x,scale*y,R*Math.cos(TWO_PI*t),R*Math.sin(TWO_PI*t));
@@ -44,6 +45,7 @@ class Noise extends React.Component {
         ctx.beginPath();
         ctx.moveTo(fromX, fromY);
         ctx.lineTo(toX, toY);
+        ctx.strokeStyle = '#fff';
         ctx.stroke();
       }
     }
