@@ -2,10 +2,6 @@ import React from 'react';
 import Menu from './menu/Menu';
 import Noise from './Noise/Noise';
 import Info from './Info/Info';
-import floor_count from './graphics/floor_count.png';
-import height from './graphics/height.png';
-import price from './graphics/price.png';
-import time from './graphics/time.png';
 
 import './App.css';
 
@@ -74,7 +70,12 @@ const costIcons = [
 
 class App extends React.Component {
   state = {
-    view: 'background',
+    sleep: true,
+    view: null,
+  }
+
+  componentDidMount() {
+    window.addEventListener('mousemove', () => this.setState({sleep: false}));
   }
 
   setView = (view) => {
@@ -82,10 +83,13 @@ class App extends React.Component {
   }
 
   render() {
+    if (this.state.sleep) {
+      return <Noise />;
+    }
+
     return (
       <div className="App">
         <Menu onClick={this.setView} />
-        {this.state.view === 'background' && <Noise />}
         <div className="info">
           {this.state.view === 'floor_count' && <Info cityIcons={countIcons} graphics={mainGraphs.floor_count} />}
           {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={mainGraphs.floor_area} />}
