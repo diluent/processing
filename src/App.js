@@ -9,6 +9,15 @@ import time from './graphics/time.png';
 
 import './App.css';
 
+const mainGraphs = {
+  floor_count: require('./graphics/floor count@0,5x.png'),
+  floor_area: require('./graphics/floor area@0,5x.png'),
+  height: require('./graphics/height@0,5x.png'),
+  hotel_price: require('./graphics/price@0,5x.png'),
+  time: require('./graphics/time@0,5x.png'),
+  cost: require('./graphics/costs@0,5x.png'),
+};
+
 const countIcons = [
   require('./raw_graphics/floor count Abraj Bai@0,25x.png'),
   require('./raw_graphics/floor count Burj Khalifa@0,25x.png'),
@@ -78,12 +87,12 @@ class App extends React.Component {
         <Menu onClick={this.setView} />
         {this.state.view === 'background' && <Noise />}
         <div className="info">
-          {this.state.view === 'floor_count' && <Info cityIcons={countIcons} graphics={floor_count} />}
-          {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={floor_count} />}
-          {this.state.view === 'height' && <Info cityIcons={heightIcons} graphics={height} />}
-          {this.state.view === 'hotel_price' && <Info cityIcons={priceIcons} graphics={price} />}
-          {this.state.view === 'time' && <Info cityIcons={timeIcons} graphics={time} />}
-          {this.state.view === 'cost' && <Info cityIcons={costIcons} graphics={time} />}
+          {this.state.view === 'floor_count' && <Info cityIcons={countIcons} graphics={mainGraphs.floor_count} />}
+          {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={mainGraphs.floor_area} />}
+          {this.state.view === 'height' && <Info cityIcons={heightIcons} graphics={mainGraphs.height} />}
+          {this.state.view === 'hotel_price' && <Info cityIcons={priceIcons} graphics={mainGraphs.hotel_price} />}
+          {this.state.view === 'time' && <Info cityIcons={timeIcons} graphics={mainGraphs.time} />}
+          {this.state.view === 'cost' && <Info cityIcons={costIcons} graphics={mainGraphs.cost} />}
         </div>
       </div>
     );
