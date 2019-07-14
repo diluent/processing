@@ -5,6 +5,8 @@ import Info from './Info/Info';
 
 import './App.css';
 
+const AWAKE_TIMEOUT = 120 * 1000;
+
 const mainGraphs = {
   floor_count: require('./graphics/floor count@0,5x.png'),
   floor_area: require('./graphics/floor area@0,5x.png'),
@@ -92,7 +94,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('mousemove', () => this.setState({sleep: false}));
+    window.addEventListener('mousemove', () => {
+      this.setState({sleep: false});
+      setTimeout(() => this.setState({sleep: true}), AWAKE_TIMEOUT);
+    });
     this.preloadImages();
   }
 
