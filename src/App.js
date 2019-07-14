@@ -74,8 +74,26 @@ class App extends React.Component {
     view: null,
   }
 
+  preloadImages = () => {
+    let srcs = Object.values(mainGraphs);
+    srcs = srcs.concat(countIcons);
+    srcs = srcs.concat(areaIcons);
+    srcs = srcs.concat(heightIcons);
+    srcs = srcs.concat(priceIcons);
+    srcs = srcs.concat(timeIcons);
+    srcs = srcs.concat(costIcons);
+
+    const images = new Array();
+
+    for (let i = 0; i < srcs.length; i++) {
+      images[i] = new Image();
+      images[i].src = srcs[i];
+    }
+  }
+
   componentDidMount() {
     window.addEventListener('mousemove', () => this.setState({sleep: false}));
+    this.preloadImages();
   }
 
   setView = (view) => {

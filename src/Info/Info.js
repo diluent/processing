@@ -1,15 +1,21 @@
 import React from 'react';
 import './styles.css';
 
-class TimeInfo extends React.Component {
+class Info extends React.Component {
   state = {
     showMainPicture: true,
   }
 
+  timerId = null;
+
   componentDidMount() {
-    setTimeout(() => {
+    this.timerId = setTimeout(() => {
       this.setState({showMainPicture: false});
     }, 2000);
+  }
+
+  componentWillUnmount() {
+    this.timerId = null;
   }
 
   render() {
@@ -32,4 +38,4 @@ class TimeInfo extends React.Component {
   }
 }
 
-export default TimeInfo;
+export default Info;
