@@ -71,6 +71,8 @@ const costIcons = [
 ];
 
 class App extends React.Component {
+  sleepTimerId = null;
+
   state = {
     sleep: true,
     view: null,
@@ -103,7 +105,7 @@ class App extends React.Component {
   }
 
   addFullscreenHandler() {
-    window.addEventListener('keypress', event => {
+    window.addEventListener('keydown', event => {
       if (event.key.toLowerCase() !== 'f') {
         return;
       }
@@ -133,13 +135,29 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    window.addEventListener('mousemove', () => {
+  addSleepTimer = () => {
+    this.sleepTimerId = setTimeout(() => this.setState({sleep: true}), AWAKE_TIMEOUT);
+  }
+
+  addAnyReactionHandler = () => {
+    const f = () => {
+      if (this.sleepTimerId) {
+        clearTimeout(this.sleepTimerId);
+      }
+
       this.setState({sleep: false});
-      setTimeout(() => this.setState({sleep: true}), AWAKE_TIMEOUT);
-    });
+
+      this.addSleepTimer();
+    }
+
+    window.addEventListener('mousemove', f);
+    window.addEventListener('keydown', f);
+  }
+
+  componentDidMount() {
     this.preloadImages();
     this.addFullscreenHandler();
+    this.addAnyReactionHandler();
   }
 
   setView = (view) => {
