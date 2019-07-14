@@ -89,7 +89,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <Menu onClick={this.setView} />
+        <Menu onClick={this.setView} view={this.state.view} />
         <div className="info">
           {this.state.view === 'floor_count' && <Info cityIcons={countIcons} graphics={mainGraphs.floor_count} />}
           {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={mainGraphs.floor_area} />}

@@ -13,17 +13,20 @@
     flex-direction: column;
 }
 
-.menuImg {
-    padding: 5px;
+.menuItem {
+    padding: 10px;
     width: 100px;
     height: 100px;
 }
 
-.menuImg:active {
-    padding: 0px;
-    transition: width .2s, height .2s, padding .2s;
-    width: 110px;
-    height: 110px;
+.menuImg {
+    width: 100px;
+    height: 100px;
+    transition: all .2s ease-in-out;
+}
+
+.menuActive {
+    transform: scale(1.1);
 }
 
 .title {
