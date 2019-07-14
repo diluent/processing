@@ -17,20 +17,16 @@ class TimeInfo extends React.Component {
 
     return (
       <div className="image-container">
-        {this.state.showMainPicture && (
-          <img src={graphics} className="part" />
-        )}
+        <img src={graphics} className={`part ${this.state.showMainPicture ? 'visible' : 'invisible'}`} />
 
-        {!this.state.showMainPicture && (
-          <>
-            <img src={cityIcons[0]} className="cityIcon cityIcon1" />
-            <img src={cityIcons[1]} className="cityIcon cityIcon2" />
-            <img src={cityIcons[2]} className="cityIcon cityIcon3" />
-            <img src={cityIcons[3]} className="cityIcon cityIcon4" />
-            <img src={cityIcons[4]} className="cityIcon cityIcon5" />
-            <img src={cityIcons[5]} className="cityIcon cityIcon6" />
-          </>
-        )}
+        <div className={!this.state.showMainPicture ? 'visible' : 'invisible'}>
+          <img src={cityIcons[0]} className="cityIcon cityIcon1" />
+          <img src={cityIcons[1]} className="cityIcon cityIcon2" />
+          <img src={cityIcons[2]} className="cityIcon cityIcon3" />
+          <img src={cityIcons[3]} className="cityIcon cityIcon4" />
+          <img src={cityIcons[4]} className="cityIcon cityIcon5" />
+          <img src={cityIcons[5]} className="cityIcon cityIcon6" />
+        </div>
       </div>
     );
   }
