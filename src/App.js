@@ -76,6 +76,46 @@ class App extends React.Component {
     view: null,
   }
 
+  openFullScreen() {
+    const elem = document.documentElement;
+
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+      elem.msRequestFullscreen();
+    }
+  }
+
+  closeFullScreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { /* Firefox */
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE/Edge */
+      document.msExitFullscreen();
+    }
+  }
+
+  addFullscreenHandler() {
+    window.addEventListener('keypress', event => {
+      if (event.key.toLowerCase() !== 'f') {
+        return;
+      }
+
+      if (!window.screenTop && !window.screenY) {
+        this.closeFullScreen();
+      } else {
+        this.openFullScreen();
+      }
+    });
+  }
+
   preloadImages = () => {
     let srcs = Object.values(mainGraphs);
     srcs = srcs.concat(countIcons);
@@ -99,6 +139,7 @@ class App extends React.Component {
       setTimeout(() => this.setState({sleep: true}), AWAKE_TIMEOUT);
     });
     this.preloadImages();
+    this.addFullscreenHandler();
   }
 
   setView = (view) => {
