@@ -19,13 +19,16 @@ class Info extends React.Component {
   }
 
   render() {
-    const {cityIcons, graphics} = this.props;
+    const {cityIcons, graphics, big} = this.props;
+
+    const imgCntClass = !this.state.showMainPicture ? 'visible' : 'invisible';
+    const imgCntSizeClass = big ? 'big' : 'small';
 
     return (
       <div className="image-container">
         <img src={graphics} className={`part ${this.state.showMainPicture ? 'visible' : 'invisible'}`} />
 
-        <div className={!this.state.showMainPicture ? 'visible' : 'invisible'}>
+        <div className={[imgCntClass, imgCntSizeClass].join(' ')}>
           <img src={cityIcons[0]} className="cityIcon cityIcon1" />
           <img src={cityIcons[1]} className="cityIcon cityIcon2" />
           <img src={cityIcons[2]} className="cityIcon cityIcon3" />

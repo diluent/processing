@@ -174,11 +174,11 @@ class App extends React.Component {
         <Menu onClick={this.setView} view={this.state.view} />
         <div className="info">
           {this.state.view === 'floor_count' && <Info cityIcons={countIcons} graphics={mainGraphs.floor_count} />}
-          {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={mainGraphs.floor_area} />}
+          {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={mainGraphs.floor_area} big={true} />}
           {this.state.view === 'height' && <Info cityIcons={heightIcons} graphics={mainGraphs.height} />}
           {this.state.view === 'hotel_price' && <Info cityIcons={priceIcons} graphics={mainGraphs.hotel_price} />}
-          {this.state.view === 'time' && <Info cityIcons={timeIcons} graphics={mainGraphs.time} />}
-          {this.state.view === 'cost' && <Info cityIcons={costIcons} graphics={mainGraphs.cost} />}
+          {this.state.view === 'time' && <Info cityIcons={timeIcons} graphics={mainGraphs.time} big={true} />}
+          {this.state.view === 'cost' && <Info cityIcons={costIcons} graphics={mainGraphs.cost} big={true} />}
         </div>
       </div>
     );

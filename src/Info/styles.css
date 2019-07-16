@@ -8,6 +8,14 @@
 
 .cityIcon {
     position: fixed;
+}
+
+.big > img {
+    height: 30%;
+    transform: translate(15%, 15%);
+}
+
+.small > img {
     height: 40%;
 }
 
