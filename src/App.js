@@ -2,6 +2,7 @@ import React from 'react';
 import Menu from './menu/Menu';
 import Noise from './Noise/Noise';
 import Info from './Info/Info';
+import DescriptionScreen from './DescriptionScreen/DescriptionScreen';
 
 import './App.css';
 
@@ -74,7 +75,7 @@ class App extends React.Component {
   sleepTimerId = null;
 
   state = {
-    sleep: true,
+    screen: 'description',
     view: null,
   }
 
@@ -165,8 +166,16 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.sleep) {
+    if (this.state.screen === 'sleep') {
       return <Noise />;
+    }
+
+    if (this.state.screen === 'description') {
+        return (
+          <div className="info">
+            <DescriptionScreen />
+          </div>
+        );
     }
 
     return (
