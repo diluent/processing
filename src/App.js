@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactSwipe from 'react-swipe';
+
 import Menu from './menu/Menu';
 import Noise from './Noise/Noise';
 import Info from './Info/Info';
@@ -180,15 +182,26 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <Menu onClick={this.setView} view={this.state.view} />
-        <div className="info">
-          {this.state.view === 'floor_count' && <Info cityIcons={countIcons} graphics={mainGraphs.floor_count} />}
-          {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={mainGraphs.floor_area} big={true} />}
-          {this.state.view === 'height' && <Info cityIcons={heightIcons} graphics={mainGraphs.height} />}
-          {this.state.view === 'hotel_price' && <Info cityIcons={priceIcons} graphics={mainGraphs.hotel_price} />}
-          {this.state.view === 'time' && <Info cityIcons={timeIcons} graphics={mainGraphs.time} big={true} />}
-          {this.state.view === 'cost' && <Info cityIcons={costIcons} graphics={mainGraphs.cost} big={true} />}
-        </div>
+        <ReactSwipe
+          className="carousel"
+          swipeOptions={{ continuous: false }}
+        >
+          <div>
+            <Menu onClick={this.setView} view={this.state.view} />
+            <div className="info">
+              {this.state.view === 'floor_count' && <Info cityIcons={countIcons} graphics={mainGraphs.floor_count} />}
+              {this.state.view === 'floor_area' && <Info cityIcons={areaIcons} graphics={mainGraphs.floor_area} big={true} />}
+              {this.state.view === 'height' && <Info cityIcons={heightIcons} graphics={mainGraphs.height} />}
+              {this.state.view === 'hotel_price' && <Info cityIcons={priceIcons} graphics={mainGraphs.hotel_price} />}
+              {this.state.view === 'time' && <Info cityIcons={timeIcons} graphics={mainGraphs.time} big={true} />}
+              {this.state.view === 'cost' && <Info cityIcons={costIcons} graphics={mainGraphs.cost} big={true} />}
+            </div>
+          </div>
+
+          <div className="info">
+            <DescriptionScreen />
+          </div>
+        </ReactSwipe>
       </div>
     );
   }

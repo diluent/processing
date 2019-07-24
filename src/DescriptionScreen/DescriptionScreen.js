@@ -7,17 +7,35 @@ import img5 from './source/5.png';
 import img6 from './source/6.png';
 import './styles.css';
 
-const Screen3 = ({onClick, view}) => {
-  return (
-    <div className="description-container">
-        <img src={img1} className='building' />
-        <img src={img2} className='building' />
-        <img src={img3} className='building' />
-        <img src={img4} className='building' />
-        <img src={img5} className='building' />
-        <img src={img6} className='building' />
-    </div>
-  );
+import DescriptionScreenWithPosters from './DescriptionScreenWithPosters';
+
+class DescriptionScreen extends React.Component {
+  state = {
+    view: null,
+  }
+
+  onClick = (name) => {
+
+  }
+
+  render() {
+    if (this.state.view === null) {
+      return (
+        <DescriptionScreenWithPosters />
+      );
+    }
+
+    return (
+      <div className="building-container-row">
+          <img src={img1} className='building' onClick={() => this.onClick('')} />
+          <img src={img2} className='building' />
+          <img src={img3} className='building' />
+          <img src={img4} className='building' />
+          <img src={img5} className='building' />
+          <img src={img6} className='building' />
+      </div>
+    );
+  }
 }
 
-export default Screen3;
+export default DescriptionScreen;
