@@ -1,0 +1,16 @@
+.button {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+}
+
+.button-right {
+    right: 30px;
+    bottom: 30px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.button-left {
+    left: 30px;
+    bottom: 30px;
+}

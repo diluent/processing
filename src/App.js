@@ -3,6 +3,7 @@ import React from 'react';
 import Noise from './Noise/Noise';
 import Info from './Info/Info';
 import DescriptionScreen from './DescriptionScreen/DescriptionScreen';
+import Button from './Button/Button';
 
 import './App.css';
 
@@ -90,6 +91,20 @@ class App extends React.Component {
           {this.state.screen === 'analytics' && <Info />}
           {this.state.screen === 'description' && <DescriptionScreen />}
         </div>
+
+        {this.state.screen === 'analytics' && (
+          <Button
+            direction='right'
+            onClick={() => this.setState({screen: 'description'})}
+          />
+        )}
+        
+        {this.state.screen === 'description' && (
+          <Button
+            direction='left'
+            onClick={() => this.setState({screen: 'analytics'})}
+          />
+        )}
       </div>
     );
   }

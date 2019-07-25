@@ -4,7 +4,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .building-container-row {
@@ -22,10 +22,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-}
-
-.description-screen-with-posters__buildings img {
-    height: 15%;
+    padding: 0 30px;
 }
 
 .description-screen-with-posters__poster {
@@ -35,6 +32,16 @@
 .building {
     height: 300px;
     padding-right: 2px;
+}
+
+.building-vertical {
+    height: calc(100vh*.15);
+    /* width: calc(100vh*.05); */
+    margin: 0 auto;
+}
+
+.building-vertical img {
+    height: 100%;
 }
 
 .description-screen-with-posters__button {
