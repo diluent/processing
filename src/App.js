@@ -14,6 +14,7 @@ class App extends React.Component {
 
   state = {
     screen: 'analytics',
+    hasNext: false,
   }
 
   openFullScreen() {
@@ -75,9 +76,21 @@ class App extends React.Component {
     window.addEventListener('keydown', f);
   }
 
+  initNext = () => {
+    try {
+      const searchParams = new URLSearchParams(document.location.search);
+      const hasNext = searchParams.get('next');
+
+      if (hasNext) {
+        this.setState({hasNext});
+      }
+    } catch(e) {}
+  }
+
   componentDidMount() {
     this.addFullscreenHandler();
     this.addAnyReactionHandler();
+    this.initNext();
   }
 
   render() {
@@ -92,14 +105,14 @@ class App extends React.Component {
           {this.state.screen === 'description' && <DescriptionScreen />}
         </div>
 
-        {this.state.screen === 'analytics' && (
+        {this.state.hasNext && this.state.screen === 'analytics' && (
           <Button
             direction='right'
             onClick={() => this.setState({screen: 'description'})}
           />
         )}
         
-        {this.state.screen === 'description' && (
+        {this.state.hasNext && this.state.screen === 'description' && (
           <Button
             direction='left'
             onClick={() => this.setState({screen: 'analytics'})}
