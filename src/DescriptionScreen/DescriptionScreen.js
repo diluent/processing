@@ -1,49 +1,49 @@
 import React from 'react';
-import img1 from './source/1.png';
-import img2 from './source/2.png';
-import img3 from './source/3.png';
-import img4 from './source/4.png';
-import img5 from './source/5.png';
-import img6 from './source/6.png';
+import burj from './source/burj.png';
+import shanghai from './source/shanghai.png';
+import abraj from './source/abraj.png';
+import ping from './source/ping.png';
+import lotte from './source/lotte.png';
+import one from './source/one.png';
 import './styles.css';
 
 import DescriptionScreenWithPosters from './DescriptionScreenWithPosters';
 
 class DescriptionScreen extends React.Component {
   state = {
-    view: '1',
+    view: null,
   }
 
-  onClick = (name) => {
-
+  onClick = (view) => {
+    this.setState({view})
   }
 
   render() {
-    if (this.state.view === null) {
+    if (this.state.view !== null) {
       return (
-        <DescriptionScreenWithPosters />
+        <DescriptionScreenWithPosters view={this.state.view} onClick={this.onClick} />
       );
     }
 
     return (
       <div className="building-container-row">
-        <div className='building-horizontal' style={{width: '20%'}}>
-          <img src={img2} onClick={() => this.onClick('')} />
+        <div className='building-horizontal' style={{width: '20%'}} onClick={() => this.onClick('burj')} >
+          <img src={burj} />
         </div>
-        <div className='building-horizontal' style={{width: '15%'}}>
-          <img src={img3} />
+        <div className='building-horizontal' style={{width: '15%'}} onClick={() => this.onClick('shanghai')}>
+          <img src={shanghai} />
         </div>
-        <div className='building-horizontal' style={{width: '45%'}}>
-          <img src={img5} />
+        <div className='building-horizontal' style={{width: '45%'}} onClick={() => this.onClick('abaj')}>
+          <img src={abraj} />
         </div>
-        <div className='building-horizontal' style={{width: '7%'}}>
-          <img src={img6} />
+        <div className='building-horizontal' style={{width: '7%'}} onClick={() => this.onClick('ping')}>
+          <img src={ping} />
         </div>
-        <div className='building-horizontal' style={{width: '11%'}}>
-          <img src={img4} />
+        <div className='building-horizontal' style={{width: '11%'}} onClick={() => this.onClick('lotte')}>
+          <img src={lotte} />
         </div>
-        <div className='building-horizontal' style={{width: '7.6%'}}>
-          <img src={img1} />
+        <div className='building-horizontal' style={{width: '7.6%'}} onClick={() => this.onClick('one')}>
+          <img src={one} />
         </div>
       </div>
     );
