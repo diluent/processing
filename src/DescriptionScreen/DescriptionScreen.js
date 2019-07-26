@@ -33,7 +33,7 @@ class DescriptionScreen extends React.Component {
         <div className='building-horizontal' style={{width: '15%'}} onClick={() => this.onClick('shanghai')}>
           <img src={shanghai} />
         </div>
-        <div className='building-horizontal' style={{width: '45%'}} onClick={() => this.onClick('abaj')}>
+        <div className='building-horizontal' style={{width: '45%'}} onClick={() => this.onClick('abraj')}>
           <img src={abraj} />
         </div>
         <div className='building-horizontal' style={{width: '7%'}} onClick={() => this.onClick('ping')}>
