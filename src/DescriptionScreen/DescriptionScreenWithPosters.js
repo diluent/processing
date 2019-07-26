@@ -12,7 +12,7 @@ import burjBuilding from './source/posters/Burj Khalifa building.jpg';
 import burjCity from './source/posters/Burj Khalifa city.jpg';
 
 import lotteBuilding from './source/posters/Lotte World Tower building.jpg';
-// import lotteCity from './source/posters/Lotte World Tower city.jpg';
+import lotteCity from './source/posters/Lotte World Tower city.jpg';
 
 import oneBuilding from './source/posters/One World Trade Center building.jpg';
 import oneCity from './source/posters/One World Trade Center city.jpg';
@@ -43,7 +43,7 @@ class DescriptionScreenWithPosters extends React.Component {
       case 'shanghai': return shanghaiCity;
       case 'abraj': return abrajCity;
       case 'ping': return pingCity;
-      case 'lotte': return lotteBuilding; // TODO: Add image
+      case 'lotte': return lotteCity;
       case 'one': return oneCity;
     }
   }
@@ -51,7 +51,7 @@ class DescriptionScreenWithPosters extends React.Component {
   render() {
     return (
       <div className="description-screen-with-posters">
-        <img src={this.getBuildingImg()} className="description-screen-with-posters__poster" />
+        <img src={this.getCityImg()} className="description-screen-with-posters__poster" />
         <div className="description-screen-with-posters__buildings">
           <div className='building-vertical' onClick={() => this.props.onClick('burj')}>
             <img src={burj} />
@@ -72,7 +72,7 @@ class DescriptionScreenWithPosters extends React.Component {
             <img src={one} />
           </div>
         </div>
-        <img src={this.getCityImg()} className="description-screen-with-posters__poster" />
+        <img src={this.getBuildingImg()} className="description-screen-with-posters__poster" />
       </div>
       
     );
