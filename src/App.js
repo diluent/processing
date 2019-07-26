@@ -13,6 +13,7 @@ class App extends React.Component {
   sleepTimerId = null;
 
   state = {
+    sleep: true,
     screen: 'analytics',
     hasNext: false,
   }
@@ -94,7 +95,7 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.screen === 'sleep') {
+    if (this.state.sleep) {
       return <Noise />;
     }
 
