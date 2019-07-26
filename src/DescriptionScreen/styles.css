@@ -8,10 +8,9 @@
 }
 
 .building-container-row {
-    /* width: 400px; */
-    height: 500px;
+    width: 55%;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     flex-direction: row;
 }
@@ -40,8 +39,21 @@
     margin: 0 auto;
 }
 
+.building-horizontal {
+    width: 10%;
+    padding: 0px 3px;
+    transition: all .2s ease-in-out;
+}
+
+.building-horizontal:hover {
+    transform: scale(1.1) translateY(-4%);
+    transition: all .2s ease-in-out;
+}
+
+.building-horizontal img,
 .building-vertical img {
     height: 100%;
+    width: 100%;
 }
 
 .description-screen-with-posters__button {

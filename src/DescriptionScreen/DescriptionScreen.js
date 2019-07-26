@@ -11,7 +11,7 @@ import DescriptionScreenWithPosters from './DescriptionScreenWithPosters';
 
 class DescriptionScreen extends React.Component {
   state = {
-    view: null,
+    view: '1',
   }
 
   onClick = (name) => {
@@ -27,12 +27,24 @@ class DescriptionScreen extends React.Component {
 
     return (
       <div className="building-container-row">
-          <img src={img1} className='building' onClick={() => this.onClick('')} />
-          <img src={img2} className='building' />
-          <img src={img3} className='building' />
-          <img src={img4} className='building' />
-          <img src={img5} className='building' />
-          <img src={img6} className='building' />
+        <div className='building-horizontal' style={{width: '20%'}}>
+          <img src={img2} onClick={() => this.onClick('')} />
+        </div>
+        <div className='building-horizontal' style={{width: '15%'}}>
+          <img src={img3} />
+        </div>
+        <div className='building-horizontal' style={{width: '45%'}}>
+          <img src={img5} />
+        </div>
+        <div className='building-horizontal' style={{width: '7%'}}>
+          <img src={img6} />
+        </div>
+        <div className='building-horizontal' style={{width: '11%'}}>
+          <img src={img4} />
+        </div>
+        <div className='building-horizontal' style={{width: '7.6%'}}>
+          <img src={img1} />
+        </div>
       </div>
     );
   }
