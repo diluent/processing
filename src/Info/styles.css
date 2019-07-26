@@ -11,12 +11,13 @@
 }
 
 .big > img {
-    height: 30%;
-    transform: translate(15%, 15%);
+    height: 40%;
+    transform: translate(15%, -5%);
 }
 
 .small > img {
-    height: 40%;
+    height: 50%;
+    transform: translate(0, -10%);
 }
 
 .cityIcon1 {
