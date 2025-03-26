@@ -1,0 +1,1815 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v3/paypal/authorize-payment": {
+      "post": {
+        "operationId": "authorizePaymentV3",
+        "summary": "",
+        "description": "Authorizes a PayPal transaction and emits the related payment events",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthorizePaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizePaymentResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: tenant or paypalOrderId invalid"
+          },
+          "404": {
+            "description": "Order with paypalOrderId is not found"
+          },
+          "502": {
+            "description": "Error on PayPal side while authorizing payment"
+          }
+        },
+        "tags": ["paypal"]
+      }
+    },
+    "/api/v1/payment-methods": {
+      "get": {
+        "operationId": "PaymentMethodController_findAll",
+        "parameters": [
+          {
+            "name": "filter",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": ["allowed"],
+              "type": "string"
+            }
+          },
+          {
+            "name": "shippingMethod",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": ["online", "standard", "express", "box_standard", "box_express"],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderTotalAmount",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of available payment methods",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PaymentMethodDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["payment-method"]
+      }
+    },
+    "/api/v1/payment-methods/supported": {
+      "get": {
+        "operationId": "PaymentMethodController_findAllSupportedPaymentOptions",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of supported payment methods",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PaymentMethodDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["payment-method"]
+      }
+    },
+    "/api/v3/create-payment-session": {
+      "post": {
+        "operationId": "createPaymentSessionV3",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "accept-language",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Request body for required PSP. ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaypalPaymentSessionV3RequestDto"
+                  },
+                  {
+                    "$ref": "#/components/schemas/StripePaymentSessionV3RequestDto"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AmazonPaymentSessionV3RequestDto"
+                  }
+                ],
+                "example": {
+                  "orderId": "789",
+                  "requestId": "123",
+                  "amount": {
+                    "amount": "10.00",
+                    "currencyCode": "EUR"
+                  },
+                  "paymentMethodType": "paypal",
+                  "isExpressPayment": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Response with information related requested to desired PSP",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentSessionV3ResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["payment-session"]
+      }
+    },
+    "/api/v3/initiate-capture": {
+      "post": {
+        "operationId": "initiateCaptureV3",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiateCaptureV3RequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Payment capture was initiated successfully"
+          }
+        },
+        "tags": ["capture"]
+      }
+    },
+    "/api/v3/initiate-refund": {
+      "post": {
+        "operationId": "initiateRefundV3",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiateRefundV3RequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Refund initiated successfully"
+          }
+        },
+        "tags": ["refund"]
+      }
+    },
+    "/api/v1/paypal/cancel-transaction": {
+      "post": {
+        "operationId": "PaypalCancelTransactionController_cancelTransaction",
+        "parameters": [
+          {
+            "name": "x-sid",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "CancelTransaction request was created"
+          },
+          "400": {
+            "description": "Bad request: Missing/Unknown tenant in Header or missing requestId"
+          }
+        },
+        "tags": ["paypal"]
+      }
+    },
+    "/api/v2/paypal/cancel-transaction": {
+      "post": {
+        "operationId": "cancelTransactionV2",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "x-sid",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelTransactionV2Dto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "CancelTransaction request was created"
+          },
+          "400": {
+            "description": "Bad request: Missing/Unknown tenant in Header or missing requestId/orderId"
+          }
+        },
+        "tags": ["paypal"]
+      }
+    },
+    "/api/v1/paypal/merchant-account-id": {
+      "get": {
+        "operationId": "PaypalMerchantAccountIdController_getMerchantAccountId",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paypal Client Id (aka Merchant Account Id) of provided tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantAccountIdResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Header \"x-tenant\" not set or tenant unknown"
+          }
+        },
+        "tags": ["paypal"]
+      }
+    },
+    "/api/v1/paypal/orders/{paypalOrderId}": {
+      "get": {
+        "operationId": "PaypalOrderController_getPaypalOrder",
+        "parameters": [
+          {
+            "name": "paypalOrderId",
+            "required": true,
+            "in": "path",
+            "description": "ID of the PayPal order to get.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PayPal order with personal information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaypalOrderPersonalInformationResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "PayPal order was not found"
+          }
+        },
+        "tags": ["paypal"]
+      }
+    },
+    "/api/v1/stripe/publishable-key": {
+      "get": {
+        "operationId": "StripeController_getPublishableKey",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publishable API key for initializing a client SDK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishableKeyResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Header \"x-tenant\" is not set or tenant is unknown"
+          }
+        },
+        "tags": ["stripe"]
+      }
+    },
+    "/api/v1/stripe/payment-authorization/{authorizationId}": {
+      "put": {
+        "operationId": "StripeController_authorizePayment",
+        "parameters": [
+          {
+            "name": "authorizationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StripeAuthorizationRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "get authorized payment intent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StripeAuthorizationResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Header \"x-tenant\" is not set or tenant is unknown"
+          }
+        },
+        "tags": ["stripe"]
+      }
+    },
+    "/api/v1/stripe/payment-authorization/{authorizationId}/cancel": {
+      "post": {
+        "operationId": "StripeController_cancelPayment",
+        "parameters": [
+          {
+            "name": "authorizationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoidPaymentAuthorizationRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Cancel authorized payment intent"
+          },
+          "400": {
+            "description": "Header \"x-tenant\" is not set or tenant is unknown"
+          }
+        },
+        "tags": ["stripe"]
+      }
+    },
+    "/api/v1/amazon/prepare-payment-session": {
+      "post": {
+        "operationId": "AmazonPreparePaymentSessionController_preparePaymentSession",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreparePaymentSessionRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Amazon Pay CheckoutSession payload created and signed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmazonPaymentSessionV3ResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed"
+          }
+        },
+        "tags": ["amazon"]
+      }
+    },
+    "/api/v1/amazon/merchant-account-properties": {
+      "get": {
+        "operationId": "AmazonMerchantAccountPropertiesController_getMerchantAccountProperties",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AmazonPay merchant account properties (aka MerchantId, isSandbox) of provided tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantAccountConfigResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Header \"x-tenant\" not set or tenant unknown"
+          }
+        },
+        "tags": ["amazon"]
+      }
+    },
+    "/api/v1/amazon/checkout-sessions/{checkoutSessionId}/checkout-information": {
+      "get": {
+        "operationId": "AmazonCheckoutSessionInformationController_getCheckoutSessionInformation",
+        "parameters": [
+          {
+            "name": "checkoutSessionId",
+            "required": true,
+            "in": "path",
+            "description": "Amazon checkout session id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AmazonPay checkout session for personal information validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutSessionPersonalInformationResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Checkout session was not found"
+          }
+        },
+        "tags": ["amazon"]
+      }
+    },
+    "/api/v1/amazon/authorize-payment": {
+      "post": {
+        "operationId": "AmazonAuthorizePaymentController_authorizePayment",
+        "summary": "",
+        "description": "Authorizes a Amazon transaction (complete checkout session to get charge object) and and emits the related payment events",
+        "parameters": [
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthorizePaymentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizePaymentResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. See body for details"
+          },
+          "404": {
+            "description": "CheckoutSession (checkoutSessionId) not found"
+          },
+          "502": {
+            "description": "Error on Amazon side while authorizing payment"
+          }
+        },
+        "tags": ["amazon"]
+      }
+    },
+    "/api/v3/paypal/payment-authorization/{authorizationId}/void": {
+      "post": {
+        "operationId": "voidPaymentAuthorizationV3",
+        "summary": "",
+        "description": "Voids a Paypal Authorized payment",
+        "parameters": [
+          {
+            "name": "authorizationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-tenant",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoidPaymentAuthorizationRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Payment authorization voided"
+          },
+          "400": {
+            "description": "Bad request: tenant or authorization action invalid"
+          },
+          "404": {
+            "description": "Authorization with authorizationId is not found"
+          },
+          "422": {
+            "description": "Failed to void authorization. Payment already captured."
+          }
+        },
+        "tags": ["paypal"]
+      }
+    },
+    "/livez": {
+      "get": {
+        "operationId": "HealthController_liveness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "operationId": "HealthController_readiness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "payment-gateway",
+    "description": "",
+    "version": "1.5.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "AuthorizePaymentDto": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          },
+          "clientMetadataId": {
+            "type": "string",
+            "description": "Client metadata ID used for fraud prevention by PayPal",
+            "example": "E6328E8F-D910-4CD8-A7C3-E3AEDD7C2D80"
+          },
+          "paypalOrderId": {
+            "type": "string",
+            "description": "The order ID obtained from the session creation",
+            "example": "78623747w477281"
+          }
+        },
+        "required": ["paypalOrderId"]
+      },
+      "AuthorizePaymentResponseDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier for the evelin order",
+            "example": "1-JD0XIB35"
+          }
+        },
+        "required": ["orderId"]
+      },
+      "PaymentMethodDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["amazonPay", "paypal", "invoice", "stripeCreditCard", "valueVoucher"]
+          }
+        },
+        "required": ["type"]
+      },
+      "PublicMoneyResource": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "description": "Must contain the amount in a currency dependant format usually with a dot separator",
+            "example": "100.00"
+          },
+          "currencyCode": {
+            "type": "string",
+            "description": "Must contain the currency code according to ISO4217.",
+            "example": "EUR",
+            "enum": [
+              "AED",
+              "AFN",
+              "ALL",
+              "AMD",
+              "ANG",
+              "AOA",
+              "ARS",
+              "AUD",
+              "AWG",
+              "AZN",
+              "BAM",
+              "BBD",
+              "BDT",
+              "BGN",
+              "BHD",
+              "BIF",
+              "BMD",
+              "BND",
+              "BOB",
+              "BOV",
+              "BRL",
+              "BSD",
+              "BTN",
+              "BWP",
+              "BYN",
+              "BZD",
+              "CAD",
+              "CDF",
+              "CHE",
+              "CHF",
+              "CHW",
+              "CLF",
+              "CLP",
+              "CNY",
+              "COP",
+              "COU",
+              "CRC",
+              "CUC",
+              "CUP",
+              "CVE",
+              "CZK",
+              "DJF",
+              "DKK",
+              "DOP",
+              "DZD",
+              "EGP",
+              "ERN",
+              "ETB",
+              "EUR",
+              "FJD",
+              "FKP",
+              "GBP",
+              "GEL",
+              "GHS",
+              "GIP",
+              "GMD",
+              "GNF",
+              "GTQ",
+              "GYD",
+              "HKD",
+              "HNL",
+              "HRK",
+              "HTG",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "IQD",
+              "IRR",
+              "ISK",
+              "JMD",
+              "JOD",
+              "JPY",
+              "KES",
+              "KGS",
+              "KHR",
+              "KMF",
+              "KPW",
+              "KRW",
+              "KWD",
+              "KYD",
+              "KZT",
+              "LAK",
+              "LBP",
+              "LKR",
+              "LRD",
+              "LSL",
+              "LYD",
+              "MAD",
+              "MDL",
+              "MGA",
+              "MKD",
+              "MMK",
+              "MNT",
+              "MOP",
+              "MRU",
+              "MUR",
+              "MVR",
+              "MWK",
+              "MXN",
+              "MXV",
+              "MYR",
+              "MZN",
+              "NAD",
+              "NGN",
+              "NIO",
+              "NOK",
+              "NPR",
+              "NZD",
+              "OMR",
+              "PAB",
+              "PEN",
+              "PGK",
+              "PHP",
+              "PKR",
+              "PLN",
+              "PYG",
+              "QAR",
+              "RON",
+              "RSD",
+              "RUB",
+              "RWF",
+              "SAR",
+              "SBD",
+              "SCR",
+              "SDG",
+              "SEK",
+              "SGD",
+              "SHP",
+              "SLL",
+              "SOS",
+              "SRD",
+              "SSP",
+              "STN",
+              "SVC",
+              "SYP",
+              "SZL",
+              "THB",
+              "TJS",
+              "TMT",
+              "TND",
+              "TOP",
+              "TRY",
+              "TTD",
+              "TWD",
+              "TZS",
+              "UAH",
+              "UGX",
+              "USD",
+              "USN",
+              "UYI",
+              "UYU",
+              "UYW",
+              "UZS",
+              "VES",
+              "VND",
+              "VUV",
+              "WST",
+              "XAF",
+              "XAG",
+              "XAU",
+              "XBA",
+              "XBB",
+              "XBC",
+              "XBD",
+              "XCD",
+              "XDR",
+              "XOF",
+              "XPD",
+              "XPF",
+              "XPT",
+              "XSU",
+              "XTS",
+              "XUA",
+              "XXX",
+              "YER",
+              "ZAR",
+              "ZMW",
+              "ZWL"
+            ]
+          }
+        },
+        "required": ["amount", "currencyCode"]
+      },
+      "PaypalPaymentSessionV3RequestDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "For reference"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/PublicMoneyResource"
+          },
+          "isExpressPayment": {
+            "type": "boolean",
+            "description": "Indicates whether this is an express payment or not in order to reflect it in the UI and in payment details",
+            "example": true,
+            "default": false
+          },
+          "paymentMethodType": {
+            "type": "string",
+            "enum": ["paypal"]
+          }
+        },
+        "required": ["orderId", "requestId", "amount", "paymentMethodType"]
+      },
+      "StripePaymentSessionV3RequestDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "For reference"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/PublicMoneyResource"
+          },
+          "paymentMethodType": {
+            "type": "string",
+            "enum": ["stripeCreditCard", "stripeKlarna"]
+          }
+        },
+        "required": ["orderId", "requestId", "amount", "paymentMethodType"]
+      },
+      "AddressRequestDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetNumber": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          }
+        },
+        "required": ["lastName", "streetName", "city", "zipCode", "countryCode"]
+      },
+      "AmazonPaymentSessionV3RequestDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "For reference"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/PublicMoneyResource"
+          },
+          "isExpressPayment": {
+            "type": "boolean",
+            "description": "Indicates whether this is an express payment or not in order to reflect it in the UI and in payment details"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Amazon Pay checkout session id. Required if isExpressPayment=true."
+          },
+          "redirectUrl": {
+            "type": "string",
+            "description": "Url to redirect to after user completed amazon checkout"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressRequestDto"
+          },
+          "paymentMethodType": {
+            "type": "string",
+            "enum": ["amazonPay"]
+          }
+        },
+        "required": [
+          "orderId",
+          "requestId",
+          "amount",
+          "isExpressPayment",
+          "redirectUrl",
+          "paymentMethodType"
+        ]
+      },
+      "StripePaymentSessionV3ResponseDto": {
+        "type": "object",
+        "properties": {
+          "paymentIntentId": {
+            "type": "string",
+            "description": "PaymentIntent id that comes from Stripe PSP after creating a payment session",
+            "example": "pi_1HEUuhHbw8zKo9RcxEuLsPhl"
+          },
+          "clientSecret": {
+            "type": "string",
+            "description": "Client secret that comes alongside with created PaymentIntent object. Has to be sent to frontend in order to confirm (authorize) payment session",
+            "example": "pi_1HEUuhHbw8zKo9RcxEuLsPhl_secret_Ug9fXg5JJy2oa1bolZUZuxWRV"
+          }
+        },
+        "required": ["paymentIntentId", "clientSecret"]
+      },
+      "AmazonPaymentSessionV3ResponseDto": {
+        "type": "object",
+        "properties": {
+          "payloadJSON": {
+            "type": "string",
+            "description": "Payload for the checkout initialization at Amazon"
+          },
+          "signature": {
+            "type": "string",
+            "description": "Signature of the payload for checkout initialization"
+          },
+          "publicKeyId": {
+            "type": "string",
+            "description": "Id of the public key at Amazon"
+          }
+        },
+        "required": ["payloadJSON", "signature", "publicKeyId"]
+      },
+      "PaymentSessionV3ResponseDto": {
+        "type": "object",
+        "properties": {
+          "paypalOrderId": {
+            "type": "string",
+            "description": "PayPal orderId that comes from PayPal PSP after creating a payment session",
+            "example": "123"
+          },
+          "stripePaymentIntentData": {
+            "$ref": "#/components/schemas/StripePaymentSessionV3ResponseDto"
+          },
+          "amazonPayRedirectUrl": {
+            "type": "string",
+            "description": "Redirect Url that comes from AmazonPay PSP after updating an express payment session",
+            "example": "https://amazon.de"
+          },
+          "amazonPayCheckoutSessionData": {
+            "$ref": "#/components/schemas/AmazonPaymentSessionV3ResponseDto"
+          }
+        }
+      },
+      "InitiateCaptureV3RequestDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier for the Order",
+            "example": "1-JD0XIB35"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/PublicMoneyResource"
+          },
+          "parentTransactionId": {
+            "type": "string",
+            "description": "The transaction id obtained from the authorization, must be unique for every request",
+            "example": "78623747w477281"
+          },
+          "paymentMethodType": {
+            "type": "string",
+            "enum": ["stripeCreditCard", "paypal", "amazonPay"]
+          },
+          "invoiceId": {
+            "type": "string",
+            "description": "SAP order id, currently in SAP it is \"Belegnummer\"",
+            "example": "0008772579"
+          }
+        },
+        "required": [
+          "orderId",
+          "requestId",
+          "amount",
+          "parentTransactionId",
+          "paymentMethodType",
+          "invoiceId"
+        ]
+      },
+      "InitiateRefundV3RequestDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier for the Order",
+            "example": "1-JD0XIB35"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          },
+          "refundAmount": {
+            "$ref": "#/components/schemas/PublicMoneyResource"
+          },
+          "parentTransactionId": {
+            "type": "string",
+            "description": "The transaction id obtained from the capture, must be unique for every request",
+            "example": "dce8eb51-d520-48b5-8ae5-897297da6f10"
+          },
+          "paymentMethodType": {
+            "type": "string",
+            "description": "Payment Method to refund the amount for",
+            "enum": ["stripeCreditCard", "paypal", "amazonPay"]
+          }
+        },
+        "required": [
+          "orderId",
+          "requestId",
+          "refundAmount",
+          "parentTransactionId",
+          "paymentMethodType"
+        ]
+      },
+      "CancelTransactionDto": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          }
+        },
+        "required": ["requestId"]
+      },
+      "CancelTransactionV2Dto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier for the Order",
+            "example": "1-JD0XIB35"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          }
+        },
+        "required": ["orderId", "requestId"]
+      },
+      "MerchantAccountIdResponseDto": {
+        "type": "object",
+        "properties": {
+          "merchantAccountId": {
+            "type": "string",
+            "description": "Paypal Client Id (aka Merchant Account Id) of provided tenant"
+          }
+        },
+        "required": ["merchantAccountId"]
+      },
+      "AddressDto": {
+        "type": "object",
+        "properties": {
+          "formOfAddress": {
+            "type": "string",
+            "enum": ["male", "female", "company", "other"]
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetNumber": {
+            "type": "string"
+          },
+          "additionalInformation": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          }
+        },
+        "required": ["formOfAddress", "lastName", "streetName", "city", "zipCode", "countryCode"]
+      },
+      "PaypalOrderPersonalInformationResponseDto": {
+        "type": "object",
+        "properties": {
+          "paypalOrderId": {
+            "type": "string",
+            "description": "The ID of the PayPal order."
+          },
+          "email": {
+            "type": "string",
+            "description": "Customer's email address"
+          },
+          "billingAddress": {
+            "$ref": "#/components/schemas/AddressDto"
+          }
+        },
+        "required": ["paypalOrderId"]
+      },
+      "PublishableKeyResponseDto": {
+        "type": "object",
+        "properties": {
+          "publishableKey": {
+            "type": "string",
+            "nullable": false,
+            "description": "Publishable API key for initializing a client SDK"
+          }
+        }
+      },
+      "VoidPaymentAuthorizationRequestDto": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "The requestId used when creating payment authorization"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "The orderId associated with the payment session",
+            "example": "1-JD0XZTY0"
+          }
+        },
+        "required": ["requestId", "orderId"]
+      },
+      "PreparePaymentSessionRequestDto": {
+        "type": "object",
+        "properties": {
+          "redirectUrl": {
+            "type": "string",
+            "description": "URL the User is redirected to after initializing the checkout at amazon"
+          },
+          "allowedCountryCodes": {
+            "description": "List of allowed contries to be available during address selection",
+            "example": ["DE", "AT"],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "amount": {
+            "$ref": "#/components/schemas/PublicMoneyResource"
+          },
+          "isPackstationAllowed": {
+            "type": "boolean",
+            "description": "Flag for allowing packstations to be selected as delivery address",
+            "default": false
+          }
+        },
+        "required": ["redirectUrl", "allowedCountryCodes", "amount"]
+      },
+      "MerchantAccountConfigResponseDto": {
+        "type": "object",
+        "properties": {
+          "merchantId": {
+            "type": "string",
+            "description": "AmazonPay MerchantId (aka Merchant Account Id) of provided tenant"
+          },
+          "isSandbox": {
+            "type": "boolean",
+            "description": "Flag to indicate if sandbox mode is used"
+          }
+        },
+        "required": ["merchantId", "isSandbox"]
+      },
+      "CheckoutSessionPersonalInformationResponseDto": {
+        "type": "object",
+        "properties": {
+          "checkoutSessionId": {
+            "type": "string",
+            "description": "Checkout session id"
+          },
+          "email": {
+            "type": "string",
+            "description": "Customer's email address"
+          },
+          "billingAddress": {
+            "$ref": "#/components/schemas/AddressDto"
+          },
+          "shippingAddress": {
+            "$ref": "#/components/schemas/AddressDto"
+          },
+          "canBeUpdated": {
+            "type": "boolean",
+            "description": "Whether checkout session is in state \"Open\" and thus can be updated"
+          }
+        },
+        "required": ["checkoutSessionId", "email", "billingAddress", "canBeUpdated"]
+      },
+      "AuthorizePaymentRequestDto": {
+        "type": "object",
+        "properties": {
+          "checkoutSessionId": {
+            "type": "string"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/PublicMoneyResource"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Should be identical across requests concerning the same transaction, but unique across different transactions",
+            "example": "123"
+          }
+        },
+        "required": ["checkoutSessionId", "amount", "requestId"]
+      },
+      "StripeAuthorizationRequestDto": {
+        "type": "object",
+        "properties": {
+          "paymentMethodType": {
+            "type": "string",
+            "enum": ["stripeCreditCard", "stripeKlarna"]
+          },
+          "paymentIntentClientSecret": {
+            "type": "string",
+            "description": "The orderId associated with the payment session",
+            "example": "1-JD0XZTY0"
+          }
+        },
+        "required": ["paymentMethodType", "paymentIntentClientSecret"]
+      },
+      "StripeAuthorizationResponseDto": {
+        "type": "object",
+        "properties": {
+          "isAuthorized": {
+            "type": "boolean"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "The orderId associated with the payment session",
+            "example": "1-JD0XZTY0"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "The requestId associated with the payment session",
+            "example": "1-JD0XZTY0"
+          },
+          "tenant": {
+            "type": "string",
+            "description": "The tenant associated with the payment session",
+            "example": "JS_DE"
+          }
+        },
+        "required": ["isAuthorized", "orderId", "requestId", "tenant"]
+      }
+    }
+  }
+}
